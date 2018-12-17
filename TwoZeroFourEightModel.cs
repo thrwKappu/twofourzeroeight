@@ -85,25 +85,23 @@ namespace twozerofoureight
             {
                 return "Alive";
             }
-            else
+
+            foreach (int i in range)
             {
-                foreach (int i in range)
+                foreach (int j in range)
                 {
-                    foreach (int j in range)
+                    if (j + 1 < 4 && i >= 0 && board[i, j + 1] == board[i, j])
                     {
-                        if (j + 1 < 4 && i >= 0 && board[i, j + 1] == board[i, j])
-                        {
-                            return "Alive";
-                        }
-                        if (i + 1 < 4 && j >= 0 && board[i + 1, j] == board[i, j])
-                        {
-                            return "Alive";
-                        }
+                        return "Alive";
+                    }
+                    if (i + 1 < 4 && j >= 0 && board[i + 1, j] == board[i, j])
+                    {
+                        return "Alive";
                     }
                 }
-
-                return isWon ? "Won" : "Over";
             }
+
+            return isWon ? "Won" : "Over";
         }
 
         // Perform shift and merge to the left of the given array.

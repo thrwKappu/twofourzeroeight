@@ -21,10 +21,9 @@ namespace twozerofoureight
 
         public void Notify(Model m)
         {
-            var _m = (TwoZeroFourEightModel)m;
-            UpdateBoard(_m.GetBoard());
-            UpdateScore(_m.GetScore());
-            UpdateStatus(_m.GetStatus());
+            UpdateBoard(((TwoZeroFourEightModel)m).GetBoard());
+            UpdateScore(((TwoZeroFourEightModel)m).GetScore());
+            UpdateStatus(((TwoZeroFourEightModel)m).GetStatus());
         }
 
         private void UpdateTile(Label l, int i)
@@ -78,7 +77,7 @@ namespace twozerofoureight
 
         private void UpdateScore(int s)
         {
-            lbScore.Text = string.Format("Score: {0}", s.ToString());
+            lbScore.Text = $@"Score: {s.ToString()}";
         }
 
         private void UpdateStatus(string s)
@@ -95,10 +94,10 @@ namespace twozerofoureight
             btnUp.Enabled = false;
 
             //Simple Notice
-            MessageBox.Show( 
-                                string.Format("You {0}!", s.Equals("Over") ? "Lose" : "Won"),
-                                s.Equals("Over") ? "Game Over" : "Congratulations", 
-                                MessageBoxButtons.OK
+            MessageBox.Show(
+                                text: $@"You {(s.Equals("Over") ? "Lose" : "Won")}!",
+                                caption: s.Equals("Over") ? "Game Over" : "Congratulations",
+                                buttons: MessageBoxButtons.OK
                            );
         }
 
