@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace twozerofoureight
@@ -14,6 +8,8 @@ namespace twozerofoureight
     {
         Model model;
         Controller controller;
+
+        private bool isOver;
 
         public TwoZeroFourEightView()
         {
@@ -27,7 +23,9 @@ namespace twozerofoureight
 
         public void Notify(Model m)
         {
-            UpdateBoard(((TwoZeroFourEightModel)m).GetBoard());
+            var _m = (TwoZeroFourEightModel)m;
+            UpdateBoard(_m.GetBoard());
+            UpdateScore(_m.GetScore());
         }
 
         private void UpdateTile(Label l, int i)
@@ -79,6 +77,11 @@ namespace twozerofoureight
             UpdateTile(lbl33, board[3, 3]);
         }
 
+        private void UpdateScore(int score)
+        {
+            lbScore.Text = string.Format("Score: {0}", score.ToString());
+        }
+
         private void btnLeft_Click(object sender, EventArgs e)
         {
             controller.ActionPerformed(TwoZeroFourEightController.LEFT);
@@ -99,27 +102,36 @@ namespace twozerofoureight
             controller.ActionPerformed(TwoZeroFourEightController.DOWN);
         }
 
-        private void TwoZeroFourEightView_KeyDown(object sender, KeyEventArgs e)
+        private void TwoZeroFourEightView_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             switch (e.KeyCode)
             {
                 case Keys.Up:
                 case Keys.W:
+                    e.IsInputKey = true;
                     controller.ActionPerformed(TwoZeroFourEightController.UP);
                     break;
+
                 case Keys.Down:
                 case Keys.S:
+                    e.IsInputKey = true;
                     controller.ActionPerformed(TwoZeroFourEightController.DOWN);
                     break;
+
                 case Keys.Left:
                 case Keys.A:
+                    e.IsInputKey = true;
                     controller.ActionPerformed(TwoZeroFourEightController.LEFT);
                     break;
+
                 case Keys.Right:
                 case Keys.D:
+                    e.IsInputKey = true;
                     controller.ActionPerformed(TwoZeroFourEightController.RIGHT);
                     break;
             }
+
         }
+
     }
 }

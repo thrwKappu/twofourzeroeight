@@ -54,6 +54,20 @@ namespace twozerofoureight
             }
         }
 
+        public int GetScore()
+        {
+            int _s = 0;
+
+            for (int i = 0; i < boardSize; i++)
+            {
+                for (int j=0; j < boardSize; j++)
+                {
+                    _s += board[i, j];
+                }
+            }
+            return _s;
+        }
+
         // Perform shift and merge to the left of the given array.
         protected bool ShiftAndMerge(int[] buffer)
         {
