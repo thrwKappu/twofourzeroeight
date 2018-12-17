@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace twozerofoureight
 {
@@ -58,14 +55,55 @@ namespace twozerofoureight
         {
             int _s = 0;
 
-            for (int i = 0; i < boardSize; i++)
+            foreach(int i in range)
             {
-                for (int j=0; j < boardSize; j++)
+                foreach(int j in range)
                 {
                     _s += board[i, j];
                 }
             }
             return _s;
+        }
+
+        public string GetStatus()
+        {
+            int filledCount = 0;
+            bool isWon = true;
+
+            foreach (int i in range)
+            {
+                foreach (int j in range)
+                {
+                    if (board[i, j] > 0)
+                        filledCount++;
+
+                    isWon = (board[i, j] == 2048) ? true : false;
+                }
+            }
+
+            if (filledCount < (boardSize * boardSize))
+            {
+                return "Alive";
+            }
+            else
+            {
+                foreach (int i in range)
+                {
+                    foreach (int j in range)
+                    {
+                        if (j + 1 < 4 && i >= 0 && board[i, j + 1] == board[i, j])
+                        {
+                            return "Alive";
+                        }
+                        if (i + 1 < 4 && j >= 0 && board[i + 1, j] == board[i, j])
+                        {
+                            return "Alive";
+                        }
+                    }
+                }
+
+                return isWon ? "Won" : "Over";
+            }
         }
 
         // Perform shift and merge to the left of the given array.

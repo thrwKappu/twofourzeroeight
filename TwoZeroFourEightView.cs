@@ -9,8 +9,6 @@ namespace twozerofoureight
         Model model;
         Controller controller;
 
-        private bool isOver;
-
         public TwoZeroFourEightView()
         {
             InitializeComponent();
@@ -26,6 +24,7 @@ namespace twozerofoureight
             var _m = (TwoZeroFourEightModel)m;
             UpdateBoard(_m.GetBoard());
             UpdateScore(_m.GetScore());
+            UpdateStatus(_m.GetStatus());
         }
 
         private void UpdateTile(Label l, int i)
@@ -77,9 +76,30 @@ namespace twozerofoureight
             UpdateTile(lbl33, board[3, 3]);
         }
 
-        private void UpdateScore(int score)
+        private void UpdateScore(int s)
         {
-            lbScore.Text = string.Format("Score: {0}", score.ToString());
+            lbScore.Text = string.Format("Score: {0}", s.ToString());
+        }
+
+        private void UpdateStatus(string s)
+        {
+            //Skip
+            if (s.Equals("Alive"))
+                return;
+
+            //If Over
+
+            btnDown.Enabled = false;
+            btnLeft.Enabled = false;
+            btnRight.Enabled = false;
+            btnUp.Enabled = false;
+
+            //Simple Notice
+            MessageBox.Show( 
+                                string.Format("You {0}!", s.Equals("Over") ? "Lose" : "Won"),
+                                s.Equals("Over") ? "Game Over" : "Congratulations", 
+                                MessageBoxButtons.OK
+                           );
         }
 
         private void btnLeft_Click(object sender, EventArgs e)
@@ -108,25 +128,25 @@ namespace twozerofoureight
             {
                 case Keys.Up:
                 case Keys.W:
-                    e.IsInputKey = true;
+                    e.IsInputKey = true;    this.btnUp.Focus();                                         //Force focus
                     controller.ActionPerformed(TwoZeroFourEightController.UP);
                     break;
 
                 case Keys.Down:
                 case Keys.S:
-                    e.IsInputKey = true;
+                    e.IsInputKey = true;    this.btnDown.Focus();                                        //Force focus
                     controller.ActionPerformed(TwoZeroFourEightController.DOWN);
                     break;
 
                 case Keys.Left:
                 case Keys.A:
-                    e.IsInputKey = true;
+                    e.IsInputKey = true;    this.btnLeft.Focus();                                        //Force focus
                     controller.ActionPerformed(TwoZeroFourEightController.LEFT);
                     break;
 
                 case Keys.Right:
                 case Keys.D:
-                    e.IsInputKey = true;
+                    e.IsInputKey = true;    this.btnRight.Focus();                                        //Force focus
                     controller.ActionPerformed(TwoZeroFourEightController.RIGHT);
                     break;
             }
